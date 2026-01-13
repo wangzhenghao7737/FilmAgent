@@ -1,10 +1,13 @@
-package com.xiaosa.filmagent.entity;
+package com.xiaosa.filmagent.entity.agentresponse;
 
 public enum FilmEnum implements BaseEnum{
     SUCCESS(200,"Success","Success"),
     SYSTEM_TIMEOUT(501,"System time out","System time out"),
     SYSTEM_BUSY(502,"System busy","System busy"),
-    SYSTEM_ERROR(503,"System error","System error"),;
+    SYSTEM_ERROR(503,"System error","System error"),
+    FAIL_TO_WRITE_CHAT_MEMORY_FROM_FILE(504,"Fail to write chat memory from file","Fail to write chat memory from file"),
+    FAIL_TO_LOAD_PROMPT_FROM_FILE(505,"Fail to load prompt from file","Fail to load prompt from file");
+
     private final int code;
     private final String message;
     private final String description;

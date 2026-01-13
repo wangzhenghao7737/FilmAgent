@@ -1,4 +1,4 @@
-package com.xiaosa.filmagent.entity;
+package com.xiaosa.filmagent.entity.agentresponse;
 
 import lombok.Data;
 
@@ -25,5 +25,37 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> error(BaseEnum baseEnum){
         return new ApiResponse<T>(baseEnum.getCode(),
                 baseEnum.getMessage(), null);
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }

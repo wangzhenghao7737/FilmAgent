@@ -1,4 +1,4 @@
-package com.xiaosa.filmagent.entity;
+package com.xiaosa.filmagent.entity.agentresponse;
 
 public interface BaseEnum {
     int getCode();
