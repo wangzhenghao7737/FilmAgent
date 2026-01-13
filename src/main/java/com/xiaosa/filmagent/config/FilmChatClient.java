@@ -1,14 +1,18 @@
 package com.xiaosa.filmagent.config;
 
 import com.xiaosa.filmagent.advisor.FilmLoggingAdvisor;
+import com.xiaosa.filmagent.advisor.SensitiveWordAdvisor;
 import com.xiaosa.filmagent.chatmemory.FileBasedChatMemory;
 import com.xiaosa.filmagent.entity.agentprompt.AssistantEntity;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class FilmChatClient {
@@ -19,11 +23,16 @@ public class FilmChatClient {
         return ChatClient.builder(dashscopeChatModel)
                 .defaultSystem(assistantEntity.getRandomPrompt())
                 .defaultAdvisors(
-                        MessageChatMemoryAdvisor
+                        SafeGuardAdvisor.builder()
+                                .sensitiveWords(List.of("色情","暴力","政治"))
+                                .failureResponse("I'm sorry, but I'm unable to process your request at this time. Please try again later.")
+                                .order(0)
+                                .build()
+                        ,MessageChatMemoryAdvisor
                                 .builder(new FileBasedChatMemory())
                                 .build()
-                        ,
-                        new FilmLoggingAdvisor()
+                        ,new SensitiveWordAdvisor()
+                        ,new FilmLoggingAdvisor()
                 )
                 .build();
     }

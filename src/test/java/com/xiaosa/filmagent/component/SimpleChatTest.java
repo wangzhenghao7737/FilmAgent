@@ -13,7 +13,7 @@ class SimpleChatTest {
 
     @Test
     void chat() {
-        String res = simpleChat.chat("介绍一部电影", "11");
+        String res = simpleChat.chat("介绍一部电影", "112");
         System.out.println( res);
     }
 }

@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 application-dev.yaml
+tmp/chat_memory/
 
 ### STS ###
 .apt_generated

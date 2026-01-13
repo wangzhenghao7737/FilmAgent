@@ -50,6 +50,6 @@ public class FilmLoggingAdvisor implements CallAdvisor, StreamAdvisor {
 
     @Override
     public int getOrder() {
-        return FilmConstant.FILM_LOGGER_ADVISOR_ORDER;
+        return 200;
     }
 }
