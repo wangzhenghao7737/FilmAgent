@@ -1,4 +1,4 @@
-package com.xiaosa.filmagent.config;
+package com.xiaosa.filmagent.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

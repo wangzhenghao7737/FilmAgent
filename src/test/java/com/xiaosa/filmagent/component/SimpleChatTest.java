@@ -1,10 +1,9 @@
 package com.xiaosa.filmagent.component;
 
+import com.xiaosa.filmagent.service.SimpleChat;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SimpleChatTest {

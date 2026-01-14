@@ -1,4 +1,4 @@
-package com.xiaosa.filmagent.config;
+package com.xiaosa.filmagent.component;
 
 import com.xiaosa.filmagent.advisor.FilmLoggingAdvisor;
 import com.xiaosa.filmagent.advisor.SensitiveWordAdvisor;

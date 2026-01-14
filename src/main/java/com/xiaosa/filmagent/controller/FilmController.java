@@ -1,6 +1,6 @@
 package com.xiaosa.filmagent.controller;
 
-import com.xiaosa.filmagent.component.SimpleChat;
+import com.xiaosa.filmagent.service.SimpleChat;
 import com.xiaosa.filmagent.entity.agentresponse.ApiResponse;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;

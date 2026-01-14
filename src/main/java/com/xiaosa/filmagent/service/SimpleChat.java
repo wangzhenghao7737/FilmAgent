@@ -1,16 +1,12 @@
-package com.xiaosa.filmagent.component;
+package com.xiaosa.filmagent.service;
 
-import com.xiaosa.filmagent.advisor.FilmLoggingAdvisor;
-import com.xiaosa.filmagent.chatmemory.FileBasedChatMemory;
-import com.xiaosa.filmagent.entity.agentprompt.AssistantEntity;
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class SimpleChat {
     @Resource(name = "FilmChatClient")
     private ChatClient filmChatClient;

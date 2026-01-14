@@ -1,11 +1,9 @@
-package com.xiaosa.filmagent.config;
+package com.xiaosa.filmagent.configuration;
 
 import com.xiaosa.filmagent.entity.agentprompt.AssistantEntity;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AssistantConfigurationTest {

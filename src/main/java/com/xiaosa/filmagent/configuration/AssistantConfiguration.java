@@ -1,4 +1,4 @@
-package com.xiaosa.filmagent.config;
+package com.xiaosa.filmagent.configuration;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
