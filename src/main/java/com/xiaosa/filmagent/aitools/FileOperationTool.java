@@ -14,14 +14,14 @@ import java.nio.file.Paths;
  * 默认使用TXT格式
  * todo 1.扩展格式 2.oos对象存储
  */
-
 @Component
 public class FileOperationTool {
     private static final String FILE_PATH = FilmConstant.FILE_SAVE_DIR;
     public FileOperationTool() {
-        if(!Files.exists(Paths.get(FILE_PATH))){
+        Path path = Paths.get(FILE_PATH);
+        if(!Files.exists(path)){
             try {
-                Files.createDirectory(Paths.get(FILE_PATH));
+                Files.createDirectory(path);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -1,23 +1,24 @@
 package com.xiaosa.filmagent.configuration;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaosa.filmagent.entity.agentprompt.AssistantEntity;
-
 import com.xiaosa.filmagent.entity.agentprompt.PromptEntity;
 import com.xiaosa.filmagent.entity.agentresponse.FilmEnum;
 import com.xiaosa.filmagent.exception.FilmException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * 随机system prompt
+ */
+
 @Configuration
-public class AssistantConfiguration {
+public class AssistantConfig {
     @Bean("AssistantEntity")
     public AssistantEntity assistantConfig(ObjectMapper objectMapper) {
         AssistantEntity assistantConfig = new AssistantEntity();

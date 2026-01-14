@@ -24,18 +24,15 @@ import java.io.IOException;
  */
 @Component
 public class WebSearchTool {
-    @Value("${search-api.url}")
-    private String API_ENDPOINT ;
-
-    @Value("${search-api.key}")
-    private String DEFAULT_API_KEY;
-
+    private final String API_ENDPOINT ;
+    private final String DEFAULT_API_KEY;
     private final OkHttpClient client;
-
-    public WebSearchTool() {
+    public WebSearchTool(@Value("${search-api.url}") String url
+    ,@Value("${search-api.key}") String  key) {
         this.client = new OkHttpClient();
+        this.API_ENDPOINT = url;
+        this.DEFAULT_API_KEY = key;
     }
-
     @Tool(description = "You can generate keywords and obtain the search results about them on the internet.")
     public String searchBaidu(@ToolParam(description = "Search query(Key words)") String query){
         HttpUrl.Builder urlBuilder = HttpUrl.parse(API_ENDPOINT).newBuilder()
@@ -61,7 +58,7 @@ public class WebSearchTool {
             // 对请求结果进行精简
             Gson gson = new Gson();
             JsonObject asJsonObject = JsonParser.parseString(response.body().string()).getAsJsonObject();
-            JsonArray relatedSearches = asJsonObject.get("related_searches").getAsJsonArray();
+            JsonArray relatedSearches = asJsonObject.get("related_searches").getAsJsonArray() == null ? asJsonObject.get("organic_results").getAsJsonArray() : asJsonObject.get("related_searches").getAsJsonArray();
             return gson.toJson(relatedSearches);
         }catch (IOException e){
             return "Searching Error "+e.getMessage();

@@ -12,7 +12,7 @@ class SimpleChatWithToolsTest {
     private SimpleChatWithTools simpleChatWithTools;
     @Test
     void chat() {
-        String chat = simpleChatWithTools.chat("该死，再给我介绍影片《绿巨人》，可以给我一些相关图片，或帮我保存相关的经典台词", "topic_green_test");
+        String chat = simpleChatWithTools.chat("该死，给我介绍影片《赛车总动员》，可以给我一些相关图片", "topic_car_test");
         System.out.println(chat);
     }
 }

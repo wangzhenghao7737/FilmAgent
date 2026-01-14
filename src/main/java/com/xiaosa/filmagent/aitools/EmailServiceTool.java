@@ -10,17 +10,18 @@ import org.springframework.stereotype.Component;
 
 /**
  * 向用户发送邮件
- * 前提：AI需要知道用户的邮箱账号
- * 实现方式
- * 1.
- * 2.通过用户信息查询工具获取用户的邮箱账号
+ * todo 1.获取当前用户的邮箱地址，用redis,mysql或ThreadLocal.2.拓展邮箱功能，如支持附件，链接等
  */
 @Component
 public class EmailServiceTool {
-    @Resource
-    private JavaMailSender javaMailSender;
-    @Value("${spring.mail.username}")
-    private String from;
+
+    private final JavaMailSender javaMailSender;
+    private final String from;
+    public EmailServiceTool(@Value("${spring.mail.username}") String from
+    ,JavaMailSender javaMailSender) {
+        this.from = from;
+        this.javaMailSender = javaMailSender;
+    }
 
     @Tool(description = "Send an email")
     public String sendEmail(@ToolParam(description = "Subject of the email") String subject

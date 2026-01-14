@@ -14,30 +14,19 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class AiToolsConfig {
     @Bean
-    RestClient weatherRestClient(AmapProperties amapProperties) {
-        return RestClient.builder()
-                .baseUrl(amapProperties.getBase())
-//                .requestInterceptor((request, body, execution) -> {
-//                    // 打印完整 URL（包含 query params）
-//                    System.out.println(request.getURI());
-//                    return execution.execute(request, body);
-//                })
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
-    }
-    @Bean
     ToolCallback[] allTools(EmailServiceTool emailServiceTool
             ,FileOperationTool fileOperationTool
             ,ResourcesDownloadTool resourcesDownloadTool
             ,WeatherTool weatherTool
             ,WebScrapingTool webScrapingTool
             ,WebSearchTool webSearchTool
-                            ) {
+            ,ImageSearchTool imageSearchTool) {
         return ToolCallbacks.from(emailServiceTool
                 , fileOperationTool
                 , resourcesDownloadTool
                 , weatherTool
                 , webScrapingTool
-                , webSearchTool);
+                , webSearchTool
+                , imageSearchTool);
     }
 }

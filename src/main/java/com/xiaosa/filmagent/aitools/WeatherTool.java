@@ -19,14 +19,19 @@ import org.springframework.web.client.RestClient;
  */
 @Component
 public class WeatherTool {
-    @Resource
-    private RegionsService regionsService;
-    @Resource
-    private RestClient weatherRestClient;
-    @Resource
-    private AmapProperties amapProperties;
 
-    @Tool(description = "GObtain weather information by province or city")
+    private final RegionsService regionsService;
+    private final RestClient weatherRestClient;
+    private final AmapProperties amapProperties;
+
+    public WeatherTool(RegionsService regionsService
+            ,RestClient weatherRestClient
+            ,AmapProperties amapProperties) {
+        this.regionsService = regionsService;
+        this.weatherRestClient = weatherRestClient;
+        this.amapProperties = amapProperties;
+    }
+    @Tool(description = "Obtain weather information by province or city.")
     public String getWeather(@ToolParam(description = "Province or city name") String region) {
         String adcode = regionsService.getCityAdcode(region).orElse("");
         if (adcode.isEmpty()){

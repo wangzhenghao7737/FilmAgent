@@ -26,7 +26,6 @@ public class ResourcesDownloadTool {
             HttpUtil.downloadFile(url, new File(DOWNLOAD_DIR+"/"+name));
             return "File downloaded successfully to " + DOWNLOAD_DIR + "/" + name;
         } catch (Exception e) {
-            e.printStackTrace();
             return "Error downloading file: " + e.getMessage();
         }
     }
