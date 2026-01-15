@@ -1,10 +1,10 @@
-package com.xiaosa.filmagent.service;
+package com.xiaosa.filmagent.component;
 
 import com.xiaosa.filmagent.entity.regions.RegionEntity;
 import jakarta.annotation.PostConstruct;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 加载地区和区域编码
  */
-@Service
+@Component
 public class RegionsService {
     private final Map<String, String> nameToAdcode = new ConcurrentHashMap<>();
 

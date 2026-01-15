@@ -1,4 +1,4 @@
-package com.xiaosa.filmagent.service;
+package com.xiaosa.filmagent.component;
 
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;

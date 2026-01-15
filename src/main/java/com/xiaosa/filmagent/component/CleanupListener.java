@@ -6,11 +6,11 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class CleanupListener {
-//    @Resource
+    @Resource
     private COSClient cosClient;
-//    @EventListener
+    @EventListener
     public void handleContextClosed(ContextClosedEvent event) {
         cosClient.shutdown();
     }
