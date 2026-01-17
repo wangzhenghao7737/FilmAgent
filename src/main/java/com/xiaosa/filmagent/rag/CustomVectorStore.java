@@ -1,7 +1,9 @@
 package com.xiaosa.filmagent.rag;
 
 import org.springframework.ai.chat.client.advisor.api.Advisor;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.generation.augmentation.ContextualQueryAugmenter;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Component;
@@ -18,9 +20,16 @@ public class CustomVectorStore {
                 .topK(3)
                 .similarityThreshold(0.2)
                 .build();
+        final PromptTemplate emptyContext = PromptTemplate.builder()
+                .template("已检索知识库，未发现相关信息")
+                .build();
         return RetrievalAugmentationAdvisor.builder()
                 .documentRetriever(documentRetriever)
-                .order(100)
+                .queryAugmenter(ContextualQueryAugmenter
+                        .builder()
+                        .allowEmptyContext(true)
+                        .emptyContextPromptTemplate(emptyContext)
+                        .build())
                 .build();
     }
 }

@@ -45,12 +45,28 @@ public class RagServiceImpl implements RagService {
         // 4 文档收集与切割
         HashMap<String, Object> metadata = new HashMap<>();
         String type = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
+        // todo 添加元数据，用于检索和溯源
         metadata.put("film_type", type);
+        metadata.put("film_name", filePath.substring(filePath.lastIndexOf("/") + 1));
+        metadata.put("source",filePath.substring(filePath.lastIndexOf("/")+1));
         Resource resource = tencentCOSService.downloadMarkdownAsResource(key);
         List<Document> documents = filmMarkdownReader.loadMarkdown(resource,metadata);
         // 5 向量存储与转换（携带自定义元数据）
         documents = filmKeywordEnricher.enrichDocuments(documents);
         vectorStore.add(documents);
+        return false;
+    }
+
+    @Override
+    public boolean deleteDocument(String key) {
+//        if(tencentCOSService.objectExists(key)){
+//            tencentCOSService.deleteObject(key);
+//            vectorStore.delete(key);
+//            return true;
+//        }
+        // 删除cos文件
+        // 删除向量
+        vectorStore.delete(key);
         return false;
     }
 }
