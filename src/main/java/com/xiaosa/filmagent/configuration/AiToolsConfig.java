@@ -13,20 +13,22 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class AiToolsConfig {
-    @Bean
+    @Bean("allTools")
     ToolCallback[] allTools(EmailServiceTool emailServiceTool
             ,FileOperationTool fileOperationTool
             ,ResourcesDownloadTool resourcesDownloadTool
             ,WeatherTool weatherTool
             ,WebScrapingTool webScrapingTool
             ,WebSearchTool webSearchTool
-            ,ImageSearchTool imageSearchTool) {
+            ,ImageSearchTool imageSearchTool
+            ,PDFGenerationTool pdfGenerationTool) {
         return ToolCallbacks.from(emailServiceTool
                 , fileOperationTool
                 , resourcesDownloadTool
                 , weatherTool
                 , webScrapingTool
                 , webSearchTool
-                , imageSearchTool);
+                , imageSearchTool
+                , pdfGenerationTool);
     }
 }
