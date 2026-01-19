@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Configuration;
  * spring-ai-starter-vector-store-milvus 会自动配置并注入 VectorStore Bean
  */
 //@Configuration
-public class MilvusVectorStoreConfig {
+public class FilmVectorStoreConfig {
       //Spring AI 会自动创建 VectorStore Bean，类型为 MilvusVectorStore
 //    @Bean
-    public VectorStore vectorStore(MilvusServiceClient milvusClient, EmbeddingModel dashscpoeEmbeddingModel) {
+    public VectorStore FilmVectorStore(MilvusServiceClient milvusClient, EmbeddingModel dashscpoeEmbeddingModel) {
         return MilvusVectorStore.builder(milvusClient, dashscpoeEmbeddingModel)
-                .collectionName("vector_store")
+                .collectionName("vector_store_film")
                 .databaseName("default")
                 .indexType(IndexType.IVF_FLAT)
                 .metricType(MetricType.COSINE)

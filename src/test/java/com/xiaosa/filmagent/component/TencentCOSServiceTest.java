@@ -14,7 +14,7 @@ class TencentCOSServiceTest {
 
     @Test
     void putObject() {
-        System.out.println(tencentCOSService.putObject("D:/IntellijIDEA/project/ai/FilmAgent/tmp/document/Action Movies.md"));
+//        System.out.println(tencentCOSService.putObject("D:/IntellijIDEA/project/ai/FilmAgent/tmp/document/Action Movies.md"));
     }
 
     @Test
@@ -23,15 +23,19 @@ class TencentCOSServiceTest {
     }
 
     @Test
-    void deleteObject() {
-    }
-
-    @Test
-    void objectExists() {
-    }
-
-    @Test
     void downloadMarkdownAsResource() {
         System.out.println(tencentCOSService.downloadMarkdownAsResource("md/Action Movies.md"));
+    }
+
+    @Test
+    void getObjectMetadata() {
+        String objectMetadata = tencentCOSService.getObjectMetadata("md/Science Fiction Movies.md");
+        System.out.println(objectMetadata);
+    }
+
+    @Test
+    void getObjectTags() {
+        String objectTags = tencentCOSService.getObjectTags("md/Animated Movies.md");
+        System.out.println(objectTags);
     }
 }

@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -33,36 +37,39 @@ public class RagServiceImpl implements RagService {
 
     }
     @Override
-    public boolean ingestDocument(String filePath) {
-        // 1 参数校验
-        if(!StringUtils.hasText(filePath)){
-            return false;
+    public boolean ingestDocument(MultipartFile file) {
+        // 1. 安全获取文件名
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isBlank()) {
+            throw new IllegalArgumentException("上传的文件名为空");
         }
-        // 2 文件类型校验
-        if(!filePath.endsWith(".md")){
-            return false;
-        }
-        // 3 cos文件上传
-        String key = tencentCOSService.putObject(filePath);
-        // 4 文档收集与切割
-        HashMap<String, Object> metadata = new HashMap<>();
-        final String uuid = UUID.randomUUID().toString();
 
-        String type = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
-        // todo 添加元数据，用于检索和溯源
-        metadata.put("file_id",uuid);
-        metadata.put("film_type", type);
-        metadata.put("film_name", filePath.substring(filePath.lastIndexOf("/") + 1));
-        Resource resource = tencentCOSService.downloadMarkdownAsResource(key);
-        List<Document> documents = filmMarkdownReader.loadMarkdown(resource,metadata);
-        // 5 向量存储与转换（携带自定义元数据）
-        documents = filmKeywordEnricher.enrichDocuments(documents);
-        vectorStore.add(documents);
-//         6 更新cos元数据，使包含切割后的数据id
-//        List<String> ids = documents.stream().map(Document::getId).toList();
-//        tencentCOSService.updateVectorIdsMetadata(key, ids);
-        return true;
+        // 2. 构造 COS key（建议加 UUID 避免冲突）
+        String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String cosKey = extension + "/" + originalFilename; // 或更安全：extension + "/" + UUID + "." + extension
+
+        // 3. 准备元数据
+        String fileId = UUID.randomUUID().toString();
+        Map<String, Object> metadata = Map.of(
+                "file_id", fileId,
+                "film_name", originalFilename
+        );
+        try {
+            // String content = new String(file.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            List<Document> documents = filmMarkdownReader.loadMarkdown(file, metadata);
+            // 5. 向量化 & 存储
+            documents = filmKeywordEnricher.enrichDocuments(documents);
+            vectorStore.add(documents);
+            List<String> vectorStore_ids = documents.stream().map(Document::getId).toList();
+            // 6. 上传到 COS：用 InputStream 而不是 File
+            tencentCOSService.putObject(file.getInputStream(), cosKey, fileId ,vectorStore_ids);
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException("处理文件 [" + originalFilename + "] 时出错", e);
+        }
     }
+
+
 
     @Override
     public boolean deleteDocument(String key) {
@@ -74,7 +81,7 @@ public class RagServiceImpl implements RagService {
 //                    new Filter.Key("metadata.film_type"),           // 左操作数为字段名
 //                    new Filter.Value(key)               // 右操作数为值
 //            );
-            vectorStore.delete("metadata[\"film_name\"] == \"" + key + "\"");
+            vectorStore.delete("metadata['film_name'] == '" + key + "'");
             return true;
         } catch (Exception e) {
             e.printStackTrace();

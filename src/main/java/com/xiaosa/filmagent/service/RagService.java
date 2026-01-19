@@ -1,6 +1,8 @@
 package com.xiaosa.filmagent.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface RagService {
-    boolean ingestDocument(String filePath);
+    boolean ingestDocument(MultipartFile file);
     boolean deleteDocument(String key);
 }

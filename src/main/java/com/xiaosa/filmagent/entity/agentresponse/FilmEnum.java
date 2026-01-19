@@ -2,6 +2,8 @@ package com.xiaosa.filmagent.entity.agentresponse;
 
 public enum FilmEnum implements BaseEnum{
     SUCCESS(200,"Success","Success"),
+    FAIL_UPLOAD_FILE(400,"Fail to upload file","Fail to upload file"),
+    FILE_UPLOAD_TYPE_ERROR(401,"File upload type error","File upload type error"),
     SYSTEM_TIMEOUT(501,"System time out","System time out"),
     SYSTEM_BUSY(502,"System busy","System busy"),
     SYSTEM_ERROR(503,"System error","System error"),
