@@ -21,7 +21,8 @@ public class AiToolsConfig {
             ,WebScrapingTool webScrapingTool
             ,WebSearchTool webSearchTool
             ,ImageSearchTool imageSearchTool
-            ,PDFGenerationTool pdfGenerationTool) {
+            ,PDFGenerationTool pdfGenerationTool
+            ,TerminateTool terminateTool) {
         return ToolCallbacks.from(emailServiceTool
                 , fileOperationTool
                 , resourcesDownloadTool
@@ -29,6 +30,7 @@ public class AiToolsConfig {
                 , webScrapingTool
                 , webSearchTool
                 , imageSearchTool
-                , pdfGenerationTool);
+                , pdfGenerationTool
+                , terminateTool);
     }
 }

@@ -20,17 +20,14 @@ class RagServiceImplTest {
 //        ragService.ingestDocument("D:/IntellijIDEA/project/ai/FilmAgent/tmp/document/Science Fiction Movies.md");
     }
 
-    @Test
-    void deleteDocument() {
-        String expr = "metadata['film_name'] == 'Science Fiction Movies.md'";
 
-        DeleteReq deleteReq = DeleteReq.builder()
-                .collectionName("metadata")
-                .filter(expr)
-                .build();
-//        boolean b = ragService.deleteDocument("Science Fiction Movies.md");
-//        milvusClient.delete(deleteReq);
-//        System.out.println(b);
+    @Test
+    void testDeleteDocument() {
+        boolean b = ragService.deleteDocument("md/Science Fiction Movies.md");
     }
 
+    @Test
+    void query() {
+        ragService.query();
+    }
 }
