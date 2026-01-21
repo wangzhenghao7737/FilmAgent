@@ -2,7 +2,9 @@ package com.xiaosa.filmagent.aitools;
 
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Component;
-
+/**
+ * 终结工具
+ */
 @Component
 public class TerminateTool {
     @Tool(description = """

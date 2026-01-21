@@ -8,7 +8,9 @@ import com.xiaosa.filmagent.properties.TencentCOSProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+/**
+ * 腾讯云COS客户端配置
+ */
 @Configuration
 public class COSClientConfig {
     @Bean

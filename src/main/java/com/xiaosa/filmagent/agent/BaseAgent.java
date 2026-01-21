@@ -2,8 +2,6 @@ package com.xiaosa.filmagent.agent;
 
 import com.xiaosa.filmagent.agent.model.AgentStatus;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -64,7 +62,6 @@ public abstract class BaseAgent {
             cleanUp();
         }
     }
-
 
     // 流式执行
     public SseEmitter runStream(String userPrompt){

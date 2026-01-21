@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 确定有穷自动机，用于敏感词过滤
+ */
+
 public class DfaSensitiveWordFilter {
 
     private static final char REPLACEMENT = '*';

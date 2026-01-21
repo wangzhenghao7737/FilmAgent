@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * 基于文件的对话存储
+ */
 public class FileBasedChatMemory implements ChatMemory {
 
     private static final Logger logger = LoggerFactory.getLogger(FileBasedChatMemory.class);

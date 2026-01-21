@@ -3,6 +3,9 @@ package com.xiaosa.filmagent.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * 高德地图配置
+ */
 @ConfigurationProperties(prefix = "amap.weather")
 @Component
 public class AmapProperties {

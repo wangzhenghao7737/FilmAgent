@@ -11,8 +11,10 @@ import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
+/**
+ * 聊天客户端配置
+ * 不配置默认advisor和工具
+ */
 
 @Configuration
 public class FilmChatClient {

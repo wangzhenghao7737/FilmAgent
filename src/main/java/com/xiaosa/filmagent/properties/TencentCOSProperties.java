@@ -3,6 +3,9 @@ package com.xiaosa.filmagent.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * 腾讯云cos配置
+ */
 @ConfigurationProperties(prefix = "tencent.cos")
 @Component
 public class TencentCOSProperties {

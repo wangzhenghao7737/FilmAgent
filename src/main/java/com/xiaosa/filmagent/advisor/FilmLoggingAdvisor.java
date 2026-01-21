@@ -11,6 +11,9 @@ import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain;
 import org.springframework.ai.chat.client.advisor.api.StreamAdvisor;
 import org.springframework.ai.chat.client.advisor.api.StreamAdvisorChain;
 import reactor.core.publisher.Flux;
+/**
+ * 日志advisor
+ */
 
 public class FilmLoggingAdvisor implements CallAdvisor, StreamAdvisor {
     private static final Logger logger = LoggerFactory.getLogger(FilmLoggingAdvisor.class);

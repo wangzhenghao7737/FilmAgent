@@ -10,7 +10,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+/**
+ * 文件下载工具
+ */
 @Component
 public class ResourcesDownloadTool {
     private static final String DOWNLOAD_DIR = FilmConstant.DOWNLOAD_PATH;

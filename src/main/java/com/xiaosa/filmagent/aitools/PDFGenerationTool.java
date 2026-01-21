@@ -13,7 +13,9 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
+/**
+ * PDF生成工具
+ */
 @Component
 public class PDFGenerationTool {
     @Tool(description = "Generate a PDF file with given content", returnDirect = false)

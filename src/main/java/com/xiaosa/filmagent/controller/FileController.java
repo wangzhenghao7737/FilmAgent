@@ -15,6 +15,9 @@ import java.util.List;
 public class FileController {
     @Resource
     private RagService ragService;
+    /**
+     * 上传文件到腾讯云COS对象存储
+     */
     @PostMapping("/upload")
     public ApiResponse<Boolean> uploadFile(@RequestParam("file") MultipartFile file) {
         if(file.isEmpty()){
@@ -27,6 +30,7 @@ public class FileController {
         ragService.ingestDocument(file);
         return ApiResponse.success(true);
     }
+    // 删除文件
     @DeleteMapping("/delete")
     public ApiResponse<Boolean> deleteFile(@RequestParam("key") String key) {
         if (StringUtils.hasText( key)){

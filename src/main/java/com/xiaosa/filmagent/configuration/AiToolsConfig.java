@@ -11,6 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 
+/**
+ * 注册aitools
+ */
 @Configuration
 public class AiToolsConfig {
     @Bean("allTools")

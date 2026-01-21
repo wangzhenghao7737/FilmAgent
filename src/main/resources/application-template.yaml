@@ -1,0 +1,58 @@
+spring:
+  ai:
+    dashscope:
+      api-key: xxx
+      chat:
+        options:
+          model: qwen-plus
+      embedding:
+        options:
+          model: text-embedding-v2
+    vectorstore:
+      milvus:
+        client:
+          host: xxx
+          port: xxx
+          username: xxx
+          password: xxx
+        databaseName: xxx
+        collectionName: xxx
+#        embeddingDimension: 1536
+#        id-field-name: doc_id
+        indexType: IVF_FLAT
+        metricType: COSINE
+        initialize-schema: true
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: xxx          # 替换为你的 QQ 邮箱
+    password: xxx    # 替换为上面获取的授权码
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+          timeout: 10000
+          connectiontimeout: 10000
+tencent:
+  cos:
+    region: xxx
+    bucket: xxx
+    SecretId: xxx
+    SecretKey: xxx
+amap:
+  weather:
+    base: https://restapi.amap.com
+    key: xxx
+    path: /v3/weather/weatherInfo
+search-api:
+  key: xxx
+  url: https://www.searchapi.io/api/v1/search
+pexels:
+  api: https://api.pexels.com/v1/search
+  key: xxx
