@@ -23,16 +23,16 @@ public class FilmChatClient {
         return ChatClient.builder(dashscopeChatModel)
                 .defaultSystem(assistantEntity.getRandomPrompt())
                 .defaultAdvisors(
-                        SafeGuardAdvisor.builder()
-                                .sensitiveWords(List.of("色情","暴力","政治"))
-                                .failureResponse("I'm sorry, but I'm unable to process your request at this time. Please try again later.")
-                                .order(0)
-                                .build()
-                        ,MessageChatMemoryAdvisor
-                                .builder(new FileBasedChatMemory())
-                                .build()
-                        ,new SensitiveWordAdvisor()
-                        ,new FilmLoggingAdvisor()
+//                        SafeGuardAdvisor.builder()
+//                                .sensitiveWords(List.of("色情","暴力","政治"))
+//                                .failureResponse("I'm sorry, but I'm unable to process your request at this time. Please try again later.")
+//                                .order(0)
+//                                .build()
+//                        ,MessageChatMemoryAdvisor
+//                                .builder(new FileBasedChatMemory())
+//                                .build()
+//                        ,new SensitiveWordAdvisor()
+//                        ,new FilmLoggingAdvisor()
                 )
                 .build();
     }

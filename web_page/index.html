@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>电影智能助手</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: block;
+      width: 80%;
+      padding: 14px;
+      margin: 12px auto;
+      font-size: 18px;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+      /* transition: background 0.3s; */
+    }
+    .upload-btn { background-color: #4CAF50; }
+    .simple-btn { background-color: #2196F3; }
+    .rag-btn { background-color: #9C27B0; }
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎬 电影智能助手</h1>
+    <a href="upload.html" class="btn upload-btn">📁 文件上传</a>
+    <a href="stream-chat.html" class="btn rag-btn">💬 简单对话 (流式)</a>
+    <a href="rag-chat.html" class="btn simple-btn">🔍 RAG 对话（流式）</a>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI 流式对话 - SSE 版</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1a73e8;
+    }
+    #chat-box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .message {
+      padding: 12px 16px;
+      margin: 12px 0;
+      border-radius: 18px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+    .user {
+      background-color: #e3f2fd;
+      margin-left: auto;
+      text-align: right;
+    }
+    .ai {
+      background-color: #f1f8e9;
+      margin-right: auto;
+    }
+    .thinking {
+      color: #999;
+      font-style: italic;
+    }
+    #input-area {
+      display: flex;
+      gap: 10px;
+    }
+    #question {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 24px;
+      font-size: 16px;
+      outline: none;
+    }
+    #question:focus {
+      border-color: #1a73e8;
+    }
+    button {
+      padding: 12px 24px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    button:hover:not(:disabled) {
+      background-color: #1765c0;
+    }
+    button:disabled {
+      background-color: #b0bec5;
+      cursor: not-allowed;
+    }
+    #error-msg {
+      color: #d32f2f;
+      margin-top: 10px;
+      font-weight: 500;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 AI 流式对话（SSE）</h1>
+  <div id="chat-box"></div>
+  <div id="input-area">
+    <input type="text" id="question" placeholder="输入你的问题，例如：你好！" autocomplete="off" />
+    <button id="send-btn">发送</button>
+  </div>
+  <div id="error-msg"></div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const questionInput = document.getElementById('question');
+    const sendBtn = document.getElementById('send-btn');
+    const errorMsg = document.getElementById('error-msg');
+
+    let eventSource = null;
+    let currentAiMessageDiv = null;
+
+    function clearError() {
+      errorMsg.textContent = '';
+    }
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      setTimeout(clearError, 5000);
+    }
+
+    function addMessage(text, isUser = false) {
+      const div = document.createElement('div');
+      div.className = `message ${isUser ? 'user' : 'ai'}`;
+      div.textContent = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      return div;
+    }
+
+    function startStreaming(question) {
+      // 关闭旧连接
+      if (eventSource) {
+        eventSource.close();
+        eventSource = null;
+      }
+
+      // 添加用户消息
+      addMessage(question, true);
+
+      // 添加“思考中”提示
+      currentAiMessageDiv = addMessage('正在思考...', false);
+      currentAiMessageDiv.classList.add('thinking');
+
+      const conversationId = 'default'; // 可替换为动态 ID
+      const url = `http://localhost:8089/api/chat/stream?question=${encodeURIComponent(question)}&conversationId=${encodeURIComponent(conversationId)}`;
+
+      eventSource = new EventSource(url);
+
+      let accumulatedText = '';
+
+      eventSource.onmessage = (event) => {
+        clearError();
+
+        // 检查是否为结束标记（可选）
+        if (event.data === '[DONE]') {
+          console.log('Stream completed normally.');
+          finalizeResponse();
+          return;
+        }
+
+        // 移除“思考中”状态
+        if (currentAiMessageDiv.classList.contains('thinking')) {
+          currentAiMessageDiv.classList.remove('thinking');
+          accumulatedText = '';
+        }
+
+        // 追加新 token
+        accumulatedText += event.data;
+        currentAiMessageDiv.textContent = accumulatedText;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      };
+
+      eventSource.onerror = (err) => {
+        console.warn('SSE error (may be normal close):', err);
+        // 如果已经收到内容，视为正常结束；否则报错
+        if (accumulatedText.trim() === '' && !currentAiMessageDiv?.classList.contains('thinking')) {
+          showError('连接失败，请重试。');
+        }
+        finalizeResponse();
+      };
+    }
+
+    function finalizeResponse() {
+      if (eventSource) {
+        eventSource.close();
+        eventSource = null;
+      }
+      sendBtn.disabled = false;
+      questionInput.focus();
+    }
+
+    sendBtn.addEventListener('click', () => {
+      const question = questionInput.value.trim();
+      if (!question) {
+        showError('请输入问题！');
+        return;
+      }
+
+      questionInput.value = '';
+      sendBtn.disabled = true;
+      startStreaming(question);
+    });
+
+    questionInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendBtn.click();
+      }
+    });
+
+    // 页面卸载时清理连接
+    window.addEventListener('beforeunload', () => {
+      if (eventSource) {
+        eventSource.close();
+      }
+    });
+  </script>
+</body>
+</html>

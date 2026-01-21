@@ -9,6 +9,7 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 @Component
 public class ChatWithRag {
@@ -24,9 +25,26 @@ public class ChatWithRag {
                 .prompt()
                 .user(question)
                 .advisors(spec->spec.param(ChatMemory.CONVERSATION_ID, conversationId))
-                .advisors(vectorStore.getAdvisor())
+                .advisors(
+                        MessageChatMemoryAdvisor
+                                .builder(new FileBasedChatMemory())
+                                .build()
+                        ,vectorStore.getAdvisor())
                 .call()
                 .chatResponse();
         return chatResponse.getResult().getOutput().getText();
     }
+    public Flux<String> chatRag(String question, String conversationId) {
+        return filmChatRagClient
+                .prompt()
+                .user(question)
+                .advisors(spec->spec.param(ChatMemory.CONVERSATION_ID, conversationId))
+                .advisors(
+                        MessageChatMemoryAdvisor
+                                .builder(new FileBasedChatMemory())
+                                .build()
+                        ,vectorStore.getAdvisor())
+                .stream()
+                .content();
+            }
 }
